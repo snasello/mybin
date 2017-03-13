@@ -1,0 +1,21 @@
+#!/bin/bash
+
+set -euo pipefail
+
+adoc-pdf(){
+  for doc in "$@"
+  do
+    docker run -it --rm -v "$PWD":/documents/ asciidoctor/docker-asciidoctor asciidoctor-pdf -a "docs-dir=/documents/" $doc
+  done
+}
+
+adoc-pdf-usage(){
+  echo "USAGE: $0 adoc1 adoc2 ..."
+}
+
+if [[ $# -eq 0 ]]
+then
+  adoc-pdf-usage
+fi
+
+adoc-pdf "$@"
